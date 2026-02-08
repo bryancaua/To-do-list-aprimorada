@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="./assets/LOGO (1).svg" type="image/x-icon" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>To-Do list</title>
+</head>
+<body class="body">
+
+    <!-- Tela das listas -->
+    
+    <section class="tela__listas">
+        <header class="header__to_do_inicial">
+
+            <div class="separacao__header">
+                <h1 class="to__do_inicial">TO DO | YOUR LISTS</h1>
+
+                <button class="botao__criar_lista" id="botao__criar_lista">
+                    <img src="./assets/PlusCircle.svg" alt="círculo de +">
+                    <p class="p__botao_adicao_list">Adicionar nova lista</p>
+                </button>
+            </div>
+
+        </header>
+    
+          <!-- Linha decorativa -->
+        <div class="header__linha"></div>
+
+          <!-- Modal de criação de nova lista -->
+        <div class="new-list-modal hidden">
+            <form class="new__list_form">
+                <h2 class="new-list-title">Criar nova lista</h2>
+                <label for="list-name" class="new-list-label">Nome da lista</label>
+                <input
+                type="text"
+                id="list__name"
+                name="list-name"
+                class="new-list-input"
+                placeholder="Digite o nome da sua lista..."
+                />
+
+                <div class="new-list-actions">
+                <button type="submit" class="btn btn-publish" id="btn__publicar">Publicar</button>
+                <button type="reset" class="btn btn-cancel" id="btn__apagar">Apagar</button>
+                </div>
+            </form>
+        </div>
+
+    <section class="section__listas">
+
+        <ul id="ul__listas">
+
+        </ul>
+
+
+        <div class="mensagem__vazia">
+            <img src="./assets/MESSAGE_IF_EMPTY_TO_DO_LIST.svg" alt="Mensagem caso a lista esteja vazia com imagem" class="mensagem__vazia_img">
+            <p class="p__mensagem_vazia">Comece criando uma lista :)</p>
+        </div>
+    </section>
+
+
+    </section>
+
+
+
+    <!-- Tela dos To-Dos -->
+
+    <section class="tela__to_dos">
+        
+        <header class="header__to_do_inicial">
+            <div class="separacao__header_to_do">
+
+                <div class="div__botao_voltar">
+                <button class="botao__voltar">
+                    <img src="./assets/ArrowCircleLeft.svg" alt="Voltar" class="img__voltar">
+                </button>
+                <h1 class="titulo__lista_todos"></h1>
+                </div>
+
+                <button class="botao__criar_to_do" id="botao__criar_to_do">
+                    <img src="./assets/CheckPlus.svg" alt="quadrado de +">
+                    <p class="p__botao_adicao_list">Adicionar to-do</p>
+                </button>
+            </div>
+        </header>
+
+         <div class="header__linha"></div>
+
+
+        <section class="section__listas">
+
+            <ul class="ul__to_do">
+
+            </ul>
+
+            <div class="mensagem__vazia">
+                <img src="./assets/MESSAGE_IF_EMPTY_TO_DO_LIST - zombie.svg" alt="Mensagem caso a lista esteja vazia com imagem" class="mensagem__vazia_img">
+                <p class="p__mensagem_vazia">Crie algumas anotações! <br> (∩ ͡° ͜ʖ ͡°)⊃━☆ﾟ. *</p>
+            </div>
+
+        </section>
+    </section>
+
+    <script type="module" src="./scripts/index.js" defer></script>
+</body>
+</html>
