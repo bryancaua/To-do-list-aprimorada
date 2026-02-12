@@ -1,13 +1,18 @@
-const botaoCriarFormLista = document.getElementById('botao__criar_lista');
-const ulListas = document.getElementById('ul__listas');
 const divForm = document.querySelector('.new-list-modal');
+const botaoMostrarFormLista = document.querySelector('.botao__criar_lista');
 const publicarLista = document.querySelector('.new__list_form');
-const inputFormLista = document.getElementById('list__name');
+const nomeLista = document.getElementById('list__name');
+const ulListas = document.getElementById('ul__listas');
+const mensagemVazia = document.querySelector('.mensagem__vazia');
 
 let listas = JSON.parse (localStorage.getItem('listas')) || [];
 
 function atualizarLista() {
     localStorage.setItem('listas', JSON.stringify (listas));
+}
+
+function mostrarMensagemVazia() {
+    mensagemVazia.classList.toggle('hidden', listas.length > 0);
 }
 
 function criarLista(lista) {
@@ -20,10 +25,11 @@ function criarLista(lista) {
     lixeira.classList.add('lista__lixeira');
     lixeira.setAttribute('src', './assets/Trash.svg');
 
-    botaoLixeira.addEventListener('click', () => {
-        listas = listas.filter(tarefa => tarefa.id !== lista.id);
+    lixeira.addEventListener('click', () => {
+        listas = listas.filter(li => li.id !== lista.id);
         atualizarLista();
-        liListas.remove();
+        liListas.remove(); 
+        mostrarMensagemVazia();   
     })
 
     const liConteudo = document.createElement('button');
@@ -34,7 +40,6 @@ function criarLista(lista) {
     const paragrafoLista = document.createElement('p');
     paragrafoLista.textContent = lista.descricao;
     paragrafoLista.classList.add('p__nome_lista');
-
     const iconeSeta = document.createElement('img')
     iconeSeta.setAttribute('src', './assets/CaretRight.svg');
 
@@ -48,37 +53,36 @@ function criarLista(lista) {
     return liListas;
 }
 
-botaoCriarFormLista.addEventListener('click', () => {
+botaoMostrarFormLista.addEventListener('click', () => {
     divForm.classList.toggle('hidden');
 })
 
-publicarLista.addEventListener('submit', (evento) => {
-    evento.preventDefault();
+publicarLista.addEventListener('submit', (event) => {
+    event.preventDefault();
 
     const lista = {
         id: Date.now(),
-        descricao: inputFormLista.value
+        descricao: nomeLista.value
     }
-    listas.push(lista);
-    renderizarLista(lista);
-    atualizarLista();
+
+    if(lista.descricao == "") {
+        alert("Por favor insira um nome de lista válido");
+    }
+    else {
+        listas.push(lista);
+        renderizarLista(lista);
+        atualizarLista();
+        mostrarMensagemVazia();  
+    }
 })
 
 listas.forEach(renderizarLista);
 
-function renderizarLista (lista) {
+function renderizarLista(lista) {
     const elementoLista = criarLista(lista);
-    ulListas.append(elementoLista);
+     ulListas.append(elementoLista);
 }
 
-/*
-    divListas.appendChild(inputListas);
-    divListas.appendChild(imgSeta);
-    botaoListas.appendChild(divListas);
-
-    li.appendChild(botaoLixeiraListas);
-    li.appendChild(botaoListas);
-    ulListas.appendChild(li);
-*/
+mostrarMensagemVazia();
 
 
