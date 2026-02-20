@@ -29,10 +29,6 @@
 
 /* Estilo da tela de listas */
 
-.tela__listas {
-  display: block;
-}
-
 .header__to_do_inicial {
   display: flex;
   flex-direction: row;
@@ -271,10 +267,6 @@
 }
 
 /* Estilos da tela do To-Do */
-
-.tela__to_dos {
-  display: none;
-}
 
 .separacao__header_to_do {
   display: flex;

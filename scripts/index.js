@@ -4,8 +4,12 @@ const publicarLista = document.querySelector('.new__list_form');
 const nomeLista = document.getElementById('list__name');
 const ulListas = document.getElementById('ul__listas');
 const mensagemVazia = document.querySelector('.mensagem__vazia');
+const telaListas = document.querySelector('.tela__listas');
+const telaToDos = document.querySelector('.tela__to_dos');
 
 let listas = JSON.parse (localStorage.getItem('listas')) || [];
+
+let listaAtiva = null;
 
 function atualizarLista() {
     localStorage.setItem('listas', JSON.stringify (listas));
@@ -40,7 +44,8 @@ function criarLista(lista) {
     const paragrafoLista = document.createElement('p');
     paragrafoLista.textContent = lista.descricao;
     paragrafoLista.classList.add('p__nome_lista');
-    const iconeSeta = document.createElement('img')
+    const iconeSeta = document.createElement('img');
+    iconeSeta.classList.add('icone__seta');
     iconeSeta.setAttribute('src', './assets/CaretRight.svg');
 
     botaoLixeira.append(lixeira);
@@ -49,6 +54,13 @@ function criarLista(lista) {
     divLiConteudo.append(iconeSeta);
     liConteudo.append(divLiConteudo);
     liListas.append(liConteudo);
+
+    iconeSeta.addEventListener('click', () => {
+        console.log('clique no liConteudo disparou!');
+        const listaClicada = listas.find(l => l.id === lista.id);
+        console.log('listaClicada:', listaClicada);
+        trocarTelaToDo(listaClicada);
+    })
 
     return liListas;
 }
@@ -62,7 +74,8 @@ publicarLista.addEventListener('submit', (event) => {
 
     const lista = {
         id: Date.now(),
-        descricao: nomeLista.value
+        descricao: nomeLista.value,
+        todos: []
     }
 
     if(lista.descricao == "") {
@@ -72,7 +85,7 @@ publicarLista.addEventListener('submit', (event) => {
         listas.push(lista);
         renderizarLista(lista);
         atualizarLista();
-        mostrarMensagemVazia();  
+        mostrarMensagemVazia(); 
     }
 })
 
@@ -84,5 +97,16 @@ function renderizarLista(lista) {
 }
 
 mostrarMensagemVazia();
+
+// to-do
+
+function trocarTelaToDo(lista) {
+    listaAtiva = lista;
+
+    telaListas.classList.add('hidden');
+    telaToDos.classList.remove('hidden');
+
+    console.log(listaAtiva);
+}
 
 
