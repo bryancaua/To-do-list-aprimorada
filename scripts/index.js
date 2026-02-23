@@ -6,6 +6,7 @@ const ulListas = document.getElementById('ul__listas');
 const mensagemVazia = document.querySelector('.mensagem__vazia');
 const telaListas = document.querySelector('.tela__listas');
 const telaToDos = document.querySelector('.tela__to_dos');
+const tituloToDo = document.querySelector('.titulo__lista_todos');
 
 let listas = JSON.parse (localStorage.getItem('listas')) || [];
 
@@ -59,6 +60,7 @@ function criarLista(lista) {
         console.log('clique no liConteudo disparou!');
         const listaClicada = listas.find(l => l.id === lista.id);
         console.log('listaClicada:', listaClicada);
+        tituloToDo.textContent = lista.descricao;
         trocarTelaToDo(listaClicada);
     })
 
@@ -99,6 +101,13 @@ function renderizarLista(lista) {
 mostrarMensagemVazia();
 
 // to-do
+
+const setaVoltar = document.querySelector('.img__voltar');
+
+setaVoltar.addEventListener('click', () => {
+    telaListas.classList.remove('hidden');
+    telaToDos.classList.add('hidden');
+})
 
 function trocarTelaToDo(lista) {
     listaAtiva = lista;
