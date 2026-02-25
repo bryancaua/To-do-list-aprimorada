@@ -58,7 +58,7 @@
         </ul>
 
 
-        <div class="mensagem__vazia">
+        <div class="mensagem__vazia" id="mensagem__vazia__listas">
             <img src="./assets/MESSAGE_IF_EMPTY_TO_DO_LIST.svg" alt="Mensagem caso a lista esteja vazia com imagem" class="mensagem__vazia_img">
             <p class="p__mensagem_vazia">Comece criando uma lista :)</p>
         </div>
@@ -92,6 +92,24 @@
 
          <div class="header__linha"></div>
 
+        <div class="new-todo-modal hidden">
+            <form class="new__todo_form">
+                <h2 class="new-list-title">Criar novo to-do</h2>
+                <label for="todo__name" class="new-list-label">Nome do to-do</label>
+                <input
+                type="text"
+                id="todo__name"
+                name="todo-name"
+                class="new-list-input"
+                placeholder="Digite o nome do seu to-do..."
+                />
+
+                <div class="new-list-actions">
+                    <button type="submit" class="btn btn-publish" id="btn__publicar_todo">Publicar</button>
+                    <button type="reset" class="btn btn-cancel" id="btn__apagar_todo">Apagar</button>
+                </div>
+            </form>
+        </div>
 
         <section class="section__listas">
 
@@ -99,7 +117,7 @@
 
             </ul>
 
-            <div class="mensagem__vazia">
+            <div class="mensagem__vazia" id="mensagem__vazia__to_do">
                 <img src="./assets/MESSAGE_IF_EMPTY_TO_DO_LIST - zombie.svg" alt="Mensagem caso a lista esteja vazia com imagem" class="mensagem__vazia_img">
                 <p class="p__mensagem_vazia">Crie algumas anotações! <br> (∩ ͡° ͜ʖ ͡°)⊃━☆ﾟ. *</p>
             </div>

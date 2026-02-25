@@ -276,6 +276,41 @@
   padding: 1rem
 }
 
+.new-todo-modal.hidden {
+    display: none;
+}
+
+.new-todo-modal {
+    inset: 0;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    padding: 1rem 2rem;
+    z-index: 50;
+    font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.new-todo-modal {
+    inset: 0;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    padding: 1rem 2rem;
+    z-index: 50;
+    font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.new__todo_form {
+    background: #1a101a;      
+    border-radius: 12px;
+    border: 1px solid #ff4b5c20;
+    padding: 2rem 2.5rem;
+    max-width: 420px;
+    width: 100%;
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.7);
+    color: #f5e7f0;
+}
+
 .section__listas {
   display: flex;
   flex-direction: column;

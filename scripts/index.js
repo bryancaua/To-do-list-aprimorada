@@ -7,6 +7,8 @@ const mensagemVazia = document.querySelector('.mensagem__vazia');
 const telaListas = document.querySelector('.tela__listas');
 const telaToDos = document.querySelector('.tela__to_dos');
 const tituloToDo = document.querySelector('.titulo__lista_todos');
+const divFormTodo = document.querySelector('.new-todo-modal');
+const botaoMostrarFormToDo = document.querySelector('.botao__criar_to_do');
 
 let listas = JSON.parse (localStorage.getItem('listas')) || [];
 
@@ -60,7 +62,6 @@ function criarLista(lista) {
         console.log('clique no liConteudo disparou!');
         const listaClicada = listas.find(l => l.id === lista.id);
         console.log('listaClicada:', listaClicada);
-        tituloToDo.textContent = lista.descricao;
         trocarTelaToDo(listaClicada);
     })
 
@@ -103,6 +104,32 @@ mostrarMensagemVazia();
 // to-do
 
 const setaVoltar = document.querySelector('.img__voltar');
+const publicarToDo = document.querySelector('.new__todo_form');
+const nomeToDo = document.getElementById('todo__name');
+
+
+let todos = JSON.parse (localStorage.getItem('to-do')) || [];
+
+publicarToDo.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const todo = {
+        id: Date.now(),
+        descricao: nomeToDo.value,
+        concluido: false 
+    }
+
+    if(todo.descricao == "") {
+        alert("Por favor insira um nome de lista válido");
+    } else {
+        listaAtiva.todos.push(todo);
+        atualizarLista();
+    }
+})
+
+botaoMostrarFormToDo.addEventListener('click', () => {
+    divFormTodo.classList.toggle('hidden');
+})
 
 setaVoltar.addEventListener('click', () => {
     telaListas.classList.remove('hidden');
@@ -114,8 +141,7 @@ function trocarTelaToDo(lista) {
 
     telaListas.classList.add('hidden');
     telaToDos.classList.remove('hidden');
-
-    console.log(listaAtiva);
+    tituloToDo.textContent = lista.descricao;
 }
 
 
