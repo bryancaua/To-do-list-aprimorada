@@ -59,9 +59,7 @@ function criarLista(lista) {
     liListas.append(liConteudo);
 
     iconeSeta.addEventListener('click', () => {
-        console.log('clique no liConteudo disparou!');
         const listaClicada = listas.find(l => l.id === lista.id);
-        console.log('listaClicada:', listaClicada);
         trocarTelaToDo(listaClicada);
     })
 
@@ -106,9 +104,57 @@ mostrarMensagemVazia();
 const setaVoltar = document.querySelector('.img__voltar');
 const publicarToDo = document.querySelector('.new__todo_form');
 const nomeToDo = document.getElementById('todo__name');
+const ulToDo = document.querySelector('.ul__to_do');
 
 
 let todos = JSON.parse (localStorage.getItem('to-do')) || [];
+
+function criarToDo(todo) {
+    
+    const liToDo = document.createElement('li');
+    liToDo.classList.add('li__to_do');
+
+    const botaoToDo = document.createElement('button');
+    botaoToDo.classList.add('botao__to_do');
+
+    const divLiToDo = document.createElement('div');
+    divLiToDo.classList.add('div__li_to_do');
+
+    const checkboxToDo = document.createElement('input');
+    checkboxToDo.classList.add('checkbox__to_do');
+    checkboxToDo.type = 'checkbox';
+    checkboxToDo.checked = todo.concluido;
+    checkboxToDo.addEventListener('change', () => {
+        todo.concluido = checkboxToDo.checked;
+        paragrafoToDo.style.textDecoration = checkboxToDo.checked ? 'line-through' : 'none';
+        atualizarLista();
+    });
+
+    const paragrafoToDo = document.createElement('p');
+    paragrafoToDo.classList.add('p__li_to_do');
+    paragrafoToDo.textContent = todo.descricao;
+    if (todo.concluido) {
+        paragrafoToDo.style.textDecoration = 'line-through';
+    }
+
+    const imgLixeiraToDo = document.createElement('img');
+    imgLixeiraToDo.classList.add('to__do_lixeira');
+    imgLixeiraToDo.setAttribute('src',  './assets/Trash.svg');
+    
+
+        divLiToDo.appendChild(checkboxToDo);
+        divLiToDo.appendChild(paragrafoToDo);
+        botaoToDo.appendChild(divLiToDo);
+        botaoToDo.appendChild(imgLixeiraToDo);
+        liToDo.appendChild(botaoToDo);
+
+        return liToDo;
+}
+
+function renderizarToDo(todo) {
+    const elementoToDo = criarToDo(todo);
+    ulToDo.append(elementoToDo);
+}
 
 publicarToDo.addEventListener('submit', (event) => {
     event.preventDefault();
@@ -123,7 +169,9 @@ publicarToDo.addEventListener('submit', (event) => {
         alert("Por favor insira um nome de lista válido");
     } else {
         listaAtiva.todos.push(todo);
+        renderizarToDo(todo);
         atualizarLista();
+        mostrarMensagemVazia();
     }
 })
 
@@ -142,6 +190,11 @@ function trocarTelaToDo(lista) {
     telaListas.classList.add('hidden');
     telaToDos.classList.remove('hidden');
     tituloToDo.textContent = lista.descricao;
+
+    ulToDo.innerHTML = "";
+    listaAtiva.todos.forEach(renderizarToDo);
 }
+
+mostrarMensagemVazia();
 
 

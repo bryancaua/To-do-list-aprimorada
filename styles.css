@@ -321,6 +321,12 @@
   margin: 0 auto;
 }
 
+.p__li_to_do {
+  font: var(--fonte-padrao);
+  color: var(--second-200);
+  text-align: center;
+}
+
 
 .p__mensagem_vazia {
   font: var(--fonte-maior-400);
