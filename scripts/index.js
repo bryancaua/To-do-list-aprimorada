@@ -3,7 +3,8 @@ const botaoMostrarFormLista = document.querySelector('.botao__criar_lista');
 const publicarLista = document.querySelector('.new__list_form');
 const nomeLista = document.getElementById('list__name');
 const ulListas = document.getElementById('ul__listas');
-const mensagemVazia = document.querySelector('.mensagem__vazia');
+const mensagemVaziaListas = document.querySelector('.tela__listas .mensagem__vazia');
+const mensagemVaziaTodos = document.querySelector('.tela__to_dos .mensagem__vazia');
 const telaListas = document.querySelector('.tela__listas');
 const telaToDos = document.querySelector('.tela__to_dos');
 const tituloToDo = document.querySelector('.titulo__lista_todos');
@@ -18,8 +19,8 @@ function atualizarLista() {
     localStorage.setItem('listas', JSON.stringify (listas));
 }
 
-function mostrarMensagemVazia() {
-    mensagemVazia.classList.toggle('hidden', listas.length > 0);
+function mostrarMensagemVazia(elemento, array) {
+    elemento.classList.toggle('hidden', array.length > 0);
 }
 
 function criarLista(lista) {
@@ -36,7 +37,7 @@ function criarLista(lista) {
         listas = listas.filter(li => li.id !== lista.id);
         atualizarLista();
         liListas.remove(); 
-        mostrarMensagemVazia();   
+        mostrarMensagemVazia(mensagemVaziaListas, listas);   
     })
 
     const liConteudo = document.createElement('button');
@@ -86,7 +87,7 @@ publicarLista.addEventListener('submit', (event) => {
         listas.push(lista);
         renderizarLista(lista);
         atualizarLista();
-        mostrarMensagemVazia(); 
+        mostrarMensagemVazia(mensagemVaziaListas, listas); 
     }
 })
 
@@ -97,9 +98,9 @@ function renderizarLista(lista) {
      ulListas.append(elementoLista);
 }
 
-mostrarMensagemVazia();
+mostrarMensagemVazia(mensagemVaziaListas, listas);
 
-// to-do
+// TO-DO
 
 const setaVoltar = document.querySelector('.img__voltar');
 const publicarToDo = document.querySelector('.new__todo_form');
@@ -171,7 +172,7 @@ publicarToDo.addEventListener('submit', (event) => {
         listaAtiva.todos.push(todo);
         renderizarToDo(todo);
         atualizarLista();
-        mostrarMensagemVazia();
+        mostrarMensagemVazia(mensagemVaziaTodos, listaAtiva.todos);
     }
 })
 
@@ -193,8 +194,9 @@ function trocarTelaToDo(lista) {
 
     ulToDo.innerHTML = "";
     listaAtiva.todos.forEach(renderizarToDo);
+    mostrarMensagemVazia(mensagemVaziaTodos, listaAtiva.todos);
 }
 
-mostrarMensagemVazia();
+
 
 
