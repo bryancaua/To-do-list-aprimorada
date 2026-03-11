@@ -106,6 +106,7 @@ const setaVoltar = document.querySelector('.img__voltar');
 const publicarToDo = document.querySelector('.new__todo_form');
 const nomeToDo = document.getElementById('todo__name');
 const ulToDo = document.querySelector('.ul__to_do');
+const prioridadeToDo = document.getElementById('todo__prioridade');
 
 
 let todos = JSON.parse (localStorage.getItem('to-do')) || [];
@@ -114,6 +115,7 @@ function criarToDo(todo) {
     
     const liToDo = document.createElement('li');
     liToDo.classList.add('li__to_do');
+    liToDo.classList.add(`todo--${todo.prioridade}`);
 
     const botaoToDo = document.createElement('button');
     botaoToDo.classList.add('botao__to_do');
@@ -141,8 +143,12 @@ function criarToDo(todo) {
     const imgLixeiraToDo = document.createElement('img');
     imgLixeiraToDo.classList.add('to__do_lixeira');
     imgLixeiraToDo.setAttribute('src',  './assets/Trash.svg');
+    imgLixeiraToDo.addEventListener('click', () => {
+       listaAtiva.todos = listaAtiva.todos.filter(td => td.id !== todo.id);
+        atualizarLista();
+        liToDo.remove();
+    })
     
-
         divLiToDo.appendChild(checkboxToDo);
         divLiToDo.appendChild(paragrafoToDo);
         botaoToDo.appendChild(divLiToDo);
@@ -163,15 +169,16 @@ publicarToDo.addEventListener('submit', (event) => {
     const todo = {
         id: Date.now(),
         descricao: nomeToDo.value,
-        concluido: false 
+        concluido: false,
+        prioridade: prioridadeToDo.value
     }
 
     if(todo.descricao == "") {
         alert("Por favor insira um nome de lista válido");
     } else {
         listaAtiva.todos.push(todo);
-        renderizarToDo(todo);
         atualizarLista();
+        renderizarToDoOrdenado();
         mostrarMensagemVazia(mensagemVaziaTodos, listaAtiva.todos);
     }
 })
@@ -185,17 +192,31 @@ setaVoltar.addEventListener('click', () => {
     telaToDos.classList.add('hidden');
 })
 
+function renderizarToDoOrdenado () {
+    ulToDo.innerHTML = "";
+
+    listaAtiva.todos
+        .sort((a, b) => {
+            const pesoPrioridade = { alta: 3, normal: 2, baixa: 1 };
+            return pesoPrioridade[b.prioridade] - pesoPrioridade[a.prioridade];
+        })
+        .forEach(renderizarToDo);
+}
+
 function trocarTelaToDo(lista) {
     listaAtiva = lista;
 
     telaListas.classList.add('hidden');
     telaToDos.classList.remove('hidden');
     tituloToDo.textContent = lista.descricao;
+    renderizarToDoOrdenado();
 
-    ulToDo.innerHTML = "";
-    listaAtiva.todos.forEach(renderizarToDo);
     mostrarMensagemVazia(mensagemVaziaTodos, listaAtiva.todos);
 }
+
+
+
+
 
 
 

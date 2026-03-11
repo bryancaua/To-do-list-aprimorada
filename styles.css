@@ -482,6 +482,30 @@
 .prioridade-normal { background-color: orange; }
 .prioridade-alta  { background-color: red; }
 
+.new-list-label {
+  margin-top: 0.5rem;
+}
+
+ .li__to_do.todo--alta {
+    height: 100%;
+    border-left: 5px solid #c5191c;
+    border-bottom-left-radius: 0.8rem;
+    border-top-left-radius: 0.8rem;
+ }
+
+ .li__to_do.todo--normal {
+    height: 100%;
+    border-left: 4px solid #e7a74d;
+    border-bottom-left-radius: 0.8rem;
+    border-top-left-radius: 0.8rem;
+ }
+ .li__to_do.todo--baixa {
+    height: 100%;
+    border-left: 4px solid #20d429;
+    border-bottom-left-radius: 0.8rem;
+    border-top-left-radius: 0.8rem;
+ }
+
 .seletor__prioridade {
   display: flex;
   flex-direction: column;
