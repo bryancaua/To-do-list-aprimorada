@@ -170,7 +170,8 @@ publicarToDo.addEventListener('submit', (event) => {
         id: Date.now(),
         descricao: nomeToDo.value,
         concluido: false,
-        prioridade: prioridadeToDo.value
+        prioridade: prioridadeToDo.value,
+        ordem: listaAtiva.todos.length
     }
 
     if(todo.descricao == "") {
@@ -200,7 +201,7 @@ function renderizarToDoOrdenado () {
             const pesoPrioridade = { alta: 3, normal: 2, baixa: 1 };
             return pesoPrioridade[b.prioridade] - pesoPrioridade[a.prioridade];
         })
-        .forEach(renderizarToDo);
+    .forEach(renderizarToDo);
 }
 
 function trocarTelaToDo(lista) {
@@ -213,6 +214,34 @@ function trocarTelaToDo(lista) {
 
     mostrarMensagemVazia(mensagemVaziaTodos, listaAtiva.todos);
 }
+
+Sortable.create(ulToDo, {
+    Animation: 150,
+    onEnd: (evento) => {
+        const { oldIndex, newIndex} = evento;
+
+        const [itemMovido] = listaAtiva.todos.splice(oldIndex, 1); //Uso do colchetes no itemMovido apenas para desestruturação.. Remove 1 to-do da posição oldIndex de listaAtiva.todos e guarda esse to-do na variável itemMovido.
+        listaAtiva.todos.splice(newIndex, 0, itemMovido);
+
+        const posicaoDestino = newIndex;
+        const todoNoDestino = listaAtiva.todos[posicaoDestino + 1] || listaAtiva.todos[posicaoDestino - 1];
+
+        const prioridadeDestino = listaAtiva.todos
+        .filter((_, i) => i !== newIndex)
+        .find((_, i) => i === newIndex)?.prioridade;
+
+        if (todoNoDestino && prioridadeDestino !== todoNoDestino.prioridade) {
+            listaAtiva.todos.splice(newIndex, 1);
+            const posicaoCorreta = listaAtiva.todos.findIndex(t => t.prioridade !== itemMovido.prioridade);
+            listaAtiva.todos.splice(posicaoCorreta, 0, itemMovido);
+        }
+
+        atualizarLista();
+        renderizarToDoOrdenado();
+    }
+});
+
+
 
 
 
