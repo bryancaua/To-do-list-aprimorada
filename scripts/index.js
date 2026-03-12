@@ -226,11 +226,7 @@ Sortable.create(ulToDo, {
         const posicaoDestino = newIndex;
         const todoNoDestino = listaAtiva.todos[posicaoDestino + 1] || listaAtiva.todos[posicaoDestino - 1];
 
-        const prioridadeDestino = listaAtiva.todos
-        .filter((_, i) => i !== newIndex)
-        .find((_, i) => i === newIndex)?.prioridade;
-
-        if (todoNoDestino && prioridadeDestino !== todoNoDestino.prioridade) {
+        if (todoNoDestino && itemMovido.prioridade !== todoNoDestino.prioridade) {
             listaAtiva.todos.splice(newIndex, 1);
             const posicaoCorreta = listaAtiva.todos.findIndex(t => t.prioridade !== itemMovido.prioridade);
             listaAtiva.todos.splice(posicaoCorreta, 0, itemMovido);
