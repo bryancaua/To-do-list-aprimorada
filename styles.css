@@ -97,15 +97,58 @@
   box-shadow: 1px 5px 3px rgba(0, 0, 0, 0.45);
   padding: 1rem;
   margin: 0 auto;
-  cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 
 
   &:hover{
-    cursor: pointer;
     background-color: #35243285;
     box-shadow: 0 0 4px #3524329a
   }
+}
+
+.btn__concluir_lista {
+  background: transparent;
+  border: 2px solid var(--primary);
+  padding: 0.8rem;
+  color: #f87171;
+  cursor: pointer;
+  margin-right: 12px;
+  width: 1.4rem;
+  height: 1.5rem;
+  border-radius: 80%;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.8;
+  transition: opacity 0.2s, transform 0.2s, background-color 0.2s, border-color 0.2s;
+}
+
+.btn__concluir_lista:hover {
+  opacity: 1;
+  transform: scale(1.08);
+  background-color: rgba(248, 113, 113, 0.15);
+}
+
+.icone__seta {
+  color: #e5e7eb;
+  cursor: pointer;
+  font-size: 1.1rem;
+  opacity: 0.6;
+  transition: opacity 0.2s, transform 0.2s, color 0.2s;
+}
+
+.icone__seta:hover {
+  opacity: 1;
+  transform: translateX(2px);
+  color: #f97373;
+}
+
+.div__icones_lista {
+  margin-left: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 15%;
 }
 
 .lista__botao_lixeira {

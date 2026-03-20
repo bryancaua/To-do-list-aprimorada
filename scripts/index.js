@@ -10,6 +10,7 @@ const telaToDos = document.querySelector('.tela__to_dos');
 const tituloToDo = document.querySelector('.titulo__lista_todos');
 const divFormTodo = document.querySelector('.new-todo-modal');
 const botaoMostrarFormToDo = document.querySelector('.botao__criar_to_do');
+const SomRiscando = new Audio('./audio/Som de lápis.wav');
 
 let listas = JSON.parse (localStorage.getItem('listas')) || [];
 
@@ -48,14 +49,24 @@ function criarLista(lista) {
     const paragrafoLista = document.createElement('p');
     paragrafoLista.textContent = lista.descricao;
     paragrafoLista.classList.add('p__nome_lista');
+
+    const checkCompletaLista = document.createElement('button');
+    checkCompletaLista.textContent = '✔';
+    checkCompletaLista.classList.add('btn__concluir_lista');
+
     const iconeSeta = document.createElement('img');
     iconeSeta.classList.add('icone__seta');
     iconeSeta.setAttribute('src', './assets/CaretRight.svg');
 
+    const divIconesCheckSeta = document.createElement('div')
+    divIconesCheckSeta.classList.add('div__icones_lista');
+
     botaoLixeira.append(lixeira);
     liListas.append(botaoLixeira);
     divLiConteudo.append(paragrafoLista);
-    divLiConteudo.append(iconeSeta);
+    divIconesCheckSeta.append(checkCompletaLista);
+    divIconesCheckSeta.append(iconeSeta);
+    divLiConteudo.append(divIconesCheckSeta);
     liConteudo.append(divLiConteudo);
     liListas.append(liConteudo);
 
@@ -129,6 +140,9 @@ function criarToDo(todo) {
     checkboxToDo.checked = todo.concluido;
     checkboxToDo.addEventListener('change', () => {
         todo.concluido = checkboxToDo.checked;
+        if (checkboxToDo.checked) {
+            SomRiscando.play();
+        }
         paragrafoToDo.style.textDecoration = checkboxToDo.checked ? 'line-through' : 'none';
         atualizarLista();
     });
@@ -146,6 +160,7 @@ function criarToDo(todo) {
     imgLixeiraToDo.addEventListener('click', () => {
        listaAtiva.todos = listaAtiva.todos.filter(td => td.id !== todo.id);
         atualizarLista();
+        mostrarMensagemVazia(mensagemVaziaTodos, listaAtiva.todos);
         liToDo.remove();
     })
     
