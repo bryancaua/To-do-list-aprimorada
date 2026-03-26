@@ -3,6 +3,7 @@ const botaoMostrarFormLista = document.querySelector('.botao__criar_lista');
 const publicarLista = document.querySelector('.new__list_form');
 const nomeLista = document.getElementById('list__name');
 const ulListas = document.getElementById('ul__listas');
+const inputNomeToDo = document.getElementById('todo__name');
 const mensagemVaziaListas = document.querySelector('.tela__listas .mensagem__vazia');
 const mensagemVaziaTodos = document.querySelector('.tela__to_dos .mensagem__vazia');
 const telaListas = document.querySelector('.tela__listas');
@@ -53,6 +54,10 @@ function criarLista(lista) {
     const checkCompletaLista = document.createElement('button');
     checkCompletaLista.textContent = '✔';
     checkCompletaLista.classList.add('btn__concluir_lista');
+    checkCompletaLista.addEventListener('click', () => {
+        lista.conclusao = !lista.conclusao;
+        atualizarLista();
+    })
 
     const iconeSeta = document.createElement('img');
     iconeSeta.classList.add('icone__seta');
@@ -88,6 +93,7 @@ publicarLista.addEventListener('submit', (event) => {
     const lista = {
         id: Date.now(),
         descricao: nomeLista.value,
+        conclusao: false,
         todos: []
     }
 
@@ -95,6 +101,7 @@ publicarLista.addEventListener('submit', (event) => {
         alert("Por favor insira um nome de lista válido");
     }
     else {
+        nomeLista.value = "";
         listas.push(lista);
         renderizarLista(lista);
         atualizarLista();
@@ -109,6 +116,13 @@ function renderizarLista(lista) {
      ulListas.append(elementoLista);
 }
 
+function verificarListasConcluidas(lista) {
+    const existeConcluida = listas.some(l => l.conclusao === true);
+    if (existeConcluida) {
+        lista.classList.toggle('hidden');
+    }
+}
+
 mostrarMensagemVazia(mensagemVaziaListas, listas);
 
 // TO-DO
@@ -118,6 +132,7 @@ const publicarToDo = document.querySelector('.new__todo_form');
 const nomeToDo = document.getElementById('todo__name');
 const ulToDo = document.querySelector('.ul__to_do');
 const prioridadeToDo = document.getElementById('todo__prioridade');
+const footer = document.querySelector('.footer');
 
 
 let todos = JSON.parse (localStorage.getItem('to-do')) || [];
@@ -192,6 +207,7 @@ publicarToDo.addEventListener('submit', (event) => {
     if(todo.descricao == "") {
         alert("Por favor insira um nome de lista válido");
     } else {
+        inputNomeToDo.value = "";
         listaAtiva.todos.push(todo);
         atualizarLista();
         renderizarToDoOrdenado();
@@ -206,6 +222,7 @@ botaoMostrarFormToDo.addEventListener('click', () => {
 setaVoltar.addEventListener('click', () => {
     telaListas.classList.remove('hidden');
     telaToDos.classList.add('hidden');
+    footer.classList.remove('hidden');
 })
 
 function renderizarToDoOrdenado () {
@@ -221,6 +238,7 @@ function renderizarToDoOrdenado () {
 
 function trocarTelaToDo(lista) {
     listaAtiva = lista;
+    footer.classList.add('hidden');
 
     telaListas.classList.add('hidden');
     telaToDos.classList.remove('hidden');

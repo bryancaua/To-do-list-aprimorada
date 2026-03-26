@@ -10,128 +10,136 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <title>To-Do list</title>
 </head>
-<body class="body">
-
-    <!-- Tela das listas -->
-    
-    <section class="tela__listas">
-        <header class="header__to_do_inicial">
-
-            <div class="separacao__header">
-                <h1 class="to__do_inicial">TO DO | YOUR LISTS</h1>
-
-                <button class="botao__criar_lista" id="botao__criar_lista">
-                    <img src="./assets/PlusCircle.svg" alt="círculo de +">
-                    <p class="p__botao_adicao_list">Adicionar nova lista</p>
-                </button>
-            </div>
-
-        </header>
-    
-          <!-- Linha decorativa -->
-        <div class="header__linha"></div>
-
-          <!-- Modal de criação de nova lista -->
-        <div class="new-list-modal hidden">
-            <form class="new__list_form">
-                <h2 class="new-list-title">Criar nova lista</h2>
-                <label for="list-name" class="new-list-label">Nome da lista</label>
-                <input
-                type="text"
-                id="list__name"
-                name="list-name"
-                class="new-list-input"
-                placeholder="Digite o nome da sua lista..."
-                />
-
-                <div class="new-list-actions">
-                <button type="submit" class="btn btn-publish" id="btn__publicar">Publicar</button>
-                <button type="reset" class="btn btn-cancel" id="btn__apagar">Apagar</button>
-                </div>
-            </form>
-        </div>
-
-    <section class="section__listas">
-
-        <ul id="ul__listas">
-
-        </ul>
-
-
-        <div class="mensagem__vazia" id="mensagem__vazia__listas">
-            <img src="./assets/MESSAGE_IF_EMPTY_TO_DO_LIST.svg" alt="Mensagem caso a lista esteja vazia com imagem" class="mensagem__vazia_img">
-            <p class="p__mensagem_vazia">Comece criando uma lista :)</p>
-        </div>
-    </section>
-
-
-    </section>
-
-
-
-    <!-- Tela dos To-Dos -->
-
-    <section class="tela__to_dos hidden">
+<body>
+    <main>
+        <!-- Tela das listas -->
         
-        <header class="header__to_do_inicial">
-            <div class="separacao__header_to_do">
+        <section class="tela__listas">
+            <header class="header__to_do_inicial">
 
-                <div class="div__botao_voltar">
-                <button class="botao__voltar">
-                    <img src="./assets/ArrowCircleLeft.svg" alt="Voltar" class="img__voltar">
-                </button>
-                <h1 class="titulo__lista_todos"></h1>
+                <div class="separacao__header">
+                    <h1 class="to__do_inicial">TO DO | YOUR LISTS</h1>
+
+                    <button class="botao__criar_lista" id="botao__criar_lista">
+                        <img src="./assets/PlusCircle.svg" alt="círculo de +">
+                        <p class="p__botao_adicao_list">Adicionar nova lista</p>
+                    </button>
                 </div>
 
-                <button class="botao__criar_to_do" id="botao__criar_to_do">
-                    <img src="./assets/CheckPlus.svg" alt="quadrado de +">
-                    <p class="p__botao_adicao_list">Adicionar to-do</p>
-                </button>
+            </header>
+        
+            <!-- Linha decorativa -->
+            <div class="header__linha"></div>
+
+            <!-- Modal de criação de nova lista -->
+            <div class="new-list-modal hidden">
+                <form class="new__list_form">
+                    <h2 class="new-list-title">Criar nova lista</h2>
+                    <label for="list-name" class="new-list-label">Nome da lista</label>
+                    <input
+                    type="text"
+                    id="list__name"
+                    name="list-name"
+                    class="new-list-input"
+                    placeholder="Digite o nome da sua lista..."
+                    />
+
+                    <div class="new-list-actions">
+                    <button type="submit" class="btn btn-publish" id="btn__publicar">Publicar</button>
+                    <button type="reset" class="btn btn-cancel" id="btn__apagar">Apagar</button>
+                    </div>
+                </form>
             </div>
-        </header>
-
-         <div class="header__linha"></div>
-
-        <div class="new-todo-modal hidden">
-            <form class="new__todo_form">
-                <h2 class="new-list-title">Criar novo to-do</h2>
-                <label for="todo__name" class="new-list-label">Nome do to-do</label>
-                <input
-                type="text"
-                id="todo__name"
-                name="todo-name"
-                class="new-list-input"
-                placeholder="Digite o nome do seu to-do..."
-                />
-                <label for="todo__prioridade" class="new-list-label">Prioridade</label>
-                <select id="todo__prioridade" class="new-list-input">
-                    <option value="baixa">Baixa</option>
-                    <option value="normal" selected>Normal</option>
-                    <option value="alta">Alta</option>
-                </select>
-
-                <div class="new-list-actions">
-                    <button type="submit" class="btn btn-publish" id="btn__publicar_todo">Publicar</button>
-                    <button type="reset" class="btn btn-cancel" id="btn__apagar_todo">Apagar</button>
-                </div>
-            </form>
-        </div>
 
         <section class="section__listas">
 
-            <ul class="ul__to_do">
+            <ul id="ul__listas">
 
             </ul>
 
-            <div class="mensagem__vazia" id="mensagem__vazia__to_do">
-                <img src="./assets/MESSAGE_IF_EMPTY_TO_DO_LIST - zombie.svg" alt="Mensagem caso a lista esteja vazia com imagem" class="mensagem__vazia_img">
-                <p class="p__mensagem_vazia">Crie algumas anotações! <br> (∩ ͡° ͜ʖ ͡°)⊃━☆ﾟ. *</p>
+
+            <div class="mensagem__vazia" id="mensagem__vazia__listas">
+                <img src="./assets/MESSAGE_IF_EMPTY_TO_DO_LIST.svg" alt="Mensagem caso a lista esteja vazia com imagem" class="mensagem__vazia_img">
+                <p class="p__mensagem_vazia">Comece criando uma lista :)</p>
             </div>
+        </section>
+
 
         </section>
-    </section>
 
-    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
-    <script type="module" src="./scripts/index.js" defer></script>
+
+
+        <!-- Tela dos To-Dos -->
+
+        <section class="tela__to_dos hidden">
+            
+            <header class="header__to_do_inicial">
+                <div class="separacao__header_to_do">
+
+                    <div class="div__botao_voltar">
+                    <button class="botao__voltar">
+                        <img src="./assets/ArrowCircleLeft.svg" alt="Voltar" class="img__voltar">
+                    </button>
+                    <h1 class="titulo__lista_todos"></h1>
+                    </div>
+
+                    <button class="botao__criar_to_do" id="botao__criar_to_do">
+                        <img src="./assets/CheckPlus.svg" alt="quadrado de +">
+                        <p class="p__botao_adicao_list">Adicionar to-do</p>
+                    </button>
+                </div>
+            </header>
+
+            <div class="header__linha"></div>
+
+            <div class="new-todo-modal hidden">
+                <form class="new__todo_form">
+                    <h2 class="new-list-title">Criar novo to-do</h2>
+                    <label for="todo__name" class="new-list-label">Nome do to-do</label>
+                    <input
+                    type="text"
+                    id="todo__name"
+                    name="todo-name"
+                    class="new-list-input"
+                    placeholder="Digite o nome do seu to-do..."
+                    />
+                    <label for="todo__prioridade" class="new-list-label">Prioridade</label>
+                    <select id="todo__prioridade" class="new-list-input">
+                        <option value="baixa">Baixa</option>
+                        <option value="normal" selected>Normal</option>
+                        <option value="alta">Alta</option>
+                    </select>
+
+                    <div class="new-list-actions">
+                        <button type="submit" class="btn btn-publish" id="btn__publicar_todo">Publicar</button>
+                        <button type="reset" class="btn btn-cancel" id="btn__apagar_todo">Apagar</button>
+                    </div>
+                </form>
+            </div>
+
+            <section class="section__listas">
+
+                <ul class="ul__to_do">
+
+                </ul>
+
+                <div class="mensagem__vazia" id="mensagem__vazia__to_do">
+                    <img src="./assets/MESSAGE_IF_EMPTY_TO_DO_LIST - zombie.svg" alt="Mensagem caso a lista esteja vazia com imagem" class="mensagem__vazia_img">
+                    <p class="p__mensagem_vazia">Crie algumas anotações! <br> (∩ ͡° ͜ʖ ͡°)⊃━☆ﾟ. *</p>
+                </div>
+
+            </section>
+        </section>
+    
+        <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+        <script type="module" src="./scripts/index.js" defer></script>
+    </main>
+    
+    <footer class="footer"> 
+        <button class="footer__toggle">
+            <span>Visualizar listas concluídas</span>
+            <img src="./assets/chevron-down.svg" class="toggle__icon">
+        </button> 
+    </footer>
 </body>
 </html>
