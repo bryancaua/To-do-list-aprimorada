@@ -111,6 +111,10 @@ footer:hover {
   display: flex;
 }
 
+.lista__item.concluida {
+    display: none;
+}
+
 .li__conteudo {
   display: flex;
   align-items: center;
@@ -332,7 +336,7 @@ footer:hover {
   transform: translateY(-1px);
 }
 
-.footer__toggle {
+.visualizar__listas_concluidas {
   background: transparent;
   border: none;
   color: #957986;
@@ -346,18 +350,42 @@ footer:hover {
   transition: opacity 0.3s ease, transform 0.3s;
 }
 
-.footer__toggle:hover {
+.visualizar__listas_concluidas:hover {
   opacity: 1;
   transform: translateY(-2px);
 }
 
-.footer__toggle img.toggle__icon {
+.visualizar__listas_concluidas img.toggle__icon {
   width: 14px;
   transition: transform 0.3s ease;
 }
 
-.footer__toggle.active img.toggle__icon {
+.visualizar__listas_concluidas.active img.toggle__icon {
   transform: rotate(180deg);
+}
+
+/* A ul inteira recebe opacidade reduzida */
+#ul__listas_concluidas .lista__item {
+    opacity: 0.45;
+    filter: grayscale(30%);
+    transition: opacity 0.3s ease, filter 0.3s ease;
+}
+
+/* Hover para dar leve feedback ao passar o mouse */
+#ul__listas_concluidas .lista__item:hover {
+    opacity: 0.65;
+    filter: grayscale(0%);
+}
+
+/* A barra lateral vermelha vira cinza, indicando inatividade */
+#ul__listas_concluidas .lista__item::before {
+    background-color: #555 !important;
+}
+
+/* Texto riscado no nome da lista */
+#ul__listas_concluidas .p__nome_lista {
+    text-decoration: line-through;
+    color: #888;
 }
 
 /* Estilos da tela do To-Do */

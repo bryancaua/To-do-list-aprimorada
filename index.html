@@ -133,11 +133,15 @@
     
         <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
         <script type="module" src="./scripts/index.js" defer></script>
+
+        <ul id="ul__listas_concluidas" class="hidden">
+
+        </ul>
     </main>
     
-    <footer class="footer"> 
-        <button class="footer__toggle">
-            <span>Visualizar listas concluídas</span>
+    <footer class="footer" id="footer__listas"> 
+        <button class="visualizar__listas_concluidas">
+            <span  class="visualizar__listas_concluidas span">Visualizar listas concluídas</span>
             <img src="./assets/chevron-down.svg" class="toggle__icon">
         </button> 
     </footer>

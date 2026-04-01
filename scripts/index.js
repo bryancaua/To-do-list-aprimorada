@@ -11,7 +11,12 @@ const telaToDos = document.querySelector('.tela__to_dos');
 const tituloToDo = document.querySelector('.titulo__lista_todos');
 const divFormTodo = document.querySelector('.new-todo-modal');
 const botaoMostrarFormToDo = document.querySelector('.botao__criar_to_do');
+const controleConcluidas = document.getElementById('footer__listas');
 const SomRiscando = new Audio('./audio/Som de lápis.wav');
+const ulListasConcluidas = document.getElementById('ul__listas_concluidas');
+const btnVisualizarConcluidas = document.querySelector('.visualizar__listas_concluidas');
+const spanVisualizarConcluidas = document.querySelector('.visualizar__listas_concluidas span');
+const iconToggle = document.querySelector('.toggle__icon');
 
 let listas = JSON.parse (localStorage.getItem('listas')) || [];
 
@@ -38,7 +43,8 @@ function criarLista(lista) {
     lixeira.addEventListener('click', () => {
         listas = listas.filter(li => li.id !== lista.id);
         atualizarLista();
-        liListas.remove(); 
+        liListas.remove();
+        verificarListasConcluidas(); 
         mostrarMensagemVazia(mensagemVaziaListas, listas);   
     })
 
@@ -54,9 +60,18 @@ function criarLista(lista) {
     const checkCompletaLista = document.createElement('button');
     checkCompletaLista.textContent = '✔';
     checkCompletaLista.classList.add('btn__concluir_lista');
+
     checkCompletaLista.addEventListener('click', () => {
         lista.conclusao = !lista.conclusao;
         atualizarLista();
+        liListas.classList.toggle('concluida', lista.conclusao);
+
+        verificarListasConcluidas(); // mostra/oculta footer conforme existirem concluídas
+        atualizarUlListas(); // re-renderiza as listas ativas na ul principal
+
+        if (mostrandoConcluidas) {
+            atualizarListasConcluidas(); // se a seção de concluídas estiver aberta, re-renderiza
+        }
     })
 
     const iconeSeta = document.createElement('img');
@@ -109,18 +124,64 @@ publicarLista.addEventListener('submit', (event) => {
     }
 })
 
-listas.forEach(renderizarLista);
+listas.filter(l => l.conclusao === false).forEach(renderizarLista);
+verificarListasConcluidas();
 
 function renderizarLista(lista) {
     const elementoLista = criarLista(lista);
      ulListas.append(elementoLista);
 }
 
-function verificarListasConcluidas(lista) {
+function verificarListasConcluidas() {
     const existeConcluida = listas.some(l => l.conclusao === true);
-    if (existeConcluida) {
-        lista.classList.toggle('hidden');
+    controleConcluidas.classList.toggle('hidden', !existeConcluida);
+}
+
+let mostrandoConcluidas = false;
+
+btnVisualizarConcluidas.addEventListener('click', () => {
+    mostrandoConcluidas = !mostrandoConcluidas;
+
+    if (mostrandoConcluidas) {
+        atualizarListasConcluidas();
+        ulListasConcluidas.classList.remove('hidden');
+        spanVisualizarConcluidas.textContent = 'Ocultar listas concluídas';
+        iconToggle.style.transform = 'rotate(180deg)'; 
+    } else {
+        ulListasConcluidas.innerHTML = '';
+        ulListasConcluidas.classList.add('hidden');
+        spanVisualizarConcluidas.textContent = 'Visualizar listas concluídas';
+        iconToggle.style.transform = 'rotate(0deg)'; 
     }
+});
+
+function atualizarListasConcluidas() {
+    ulListasConcluidas.innerHTML = '';
+
+    const concluidas = listas.filter(l => l.conclusao === true);
+
+    // se não houver mais nenhuma, fecha a seção automaticamente
+    if (concluidas.length === 0) {
+        mostrandoConcluidas = false;
+        ulListasConcluidas.classList.add('hidden');
+        spanVisualizarConcluidas.textContent = 'Visualizar listas concluídas';
+        iconToggle.style.transform = 'rotate(0deg)';
+        return;
+    }
+
+    concluidas.forEach(lista => {
+        const elementoLista = criarLista(lista);
+        ulListasConcluidas.append(elementoLista);
+    });
+}
+
+function atualizarUlListas () {
+    ulListas.innerHTML = '';
+    listas
+        .filter(l => l.conclusao === false)
+        .forEach(l => ulListas.append(criarLista(l)));
+
+    mostrarMensagemVazia(mensagemVaziaListas, listas.filter(l => l.conclusao === false));
 }
 
 mostrarMensagemVazia(mensagemVaziaListas, listas);
@@ -238,10 +299,12 @@ function renderizarToDoOrdenado () {
 
 function trocarTelaToDo(lista) {
     listaAtiva = lista;
-    footer.classList.add('hidden');
 
+    footer.classList.add('hidden');
     telaListas.classList.add('hidden');
     telaToDos.classList.remove('hidden');
+    ulListasConcluidas.classList.add('hidden');
+    
     tituloToDo.textContent = lista.descricao;
     renderizarToDoOrdenado();
 
