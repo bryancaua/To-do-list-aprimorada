@@ -26,8 +26,9 @@ function atualizarLista() {
     localStorage.setItem('listas', JSON.stringify (listas));
 }
 
-function mostrarMensagemVazia(elemento, array) {
-    elemento.classList.toggle('hidden', array.length > 0);
+function mostrarMensagemVaziaListas() {
+    const ativas = listas.filter(l => l.conclusao === false);
+    mensagemVaziaListas.classList.toggle('hidden', ativas.length > 0);
 }
 
 function criarLista(lista) {
@@ -45,7 +46,7 @@ function criarLista(lista) {
         atualizarLista();
         liListas.remove();
         verificarListasConcluidas(); 
-        mostrarMensagemVazia(mensagemVaziaListas, listas);   
+        mostrarMensagemVaziaListas();  
     })
 
     const liConteudo = document.createElement('button');
@@ -120,7 +121,7 @@ publicarLista.addEventListener('submit', (event) => {
         listas.push(lista);
         renderizarLista(lista);
         atualizarLista();
-        mostrarMensagemVazia(mensagemVaziaListas, listas); 
+        mostrarMensagemVaziaListas();
     }
 })
 
@@ -146,12 +147,14 @@ btnVisualizarConcluidas.addEventListener('click', () => {
         atualizarListasConcluidas();
         ulListasConcluidas.classList.remove('hidden');
         spanVisualizarConcluidas.textContent = 'Ocultar listas concluídas';
-        iconToggle.style.transform = 'rotate(180deg)'; 
+        iconToggle.style.transform = 'rotate(180deg)';
+        mensagemVaziaListas.classList.add('hidden'); 
     } else {
         ulListasConcluidas.innerHTML = '';
         ulListasConcluidas.classList.add('hidden');
         spanVisualizarConcluidas.textContent = 'Visualizar listas concluídas';
         iconToggle.style.transform = 'rotate(0deg)'; 
+        mostrarMensagemVaziaListas();
     }
 });
 
@@ -181,10 +184,10 @@ function atualizarUlListas () {
         .filter(l => l.conclusao === false)
         .forEach(l => ulListas.append(criarLista(l)));
 
-    mostrarMensagemVazia(mensagemVaziaListas, listas.filter(l => l.conclusao === false));
+    mostrarMensagemVaziaListas();
 }
 
-mostrarMensagemVazia(mensagemVaziaListas, listas);
+mostrarMensagemVaziaListas();
 
 // TO-DO
 
