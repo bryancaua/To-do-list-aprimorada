@@ -283,7 +283,7 @@ botaoMostrarFormToDo.addEventListener('click', () => {
 setaVoltar.addEventListener('click', () => {
     telaListas.classList.remove('hidden');
     telaToDos.classList.add('hidden');
-    footer.classList.remove('hidden');
+    verificarListasConcluidas();
 })
 
 function renderizarToDoOrdenado () {
