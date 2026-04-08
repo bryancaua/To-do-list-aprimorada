@@ -220,6 +220,51 @@ footer:hover {
   color: var(--second-200);
 }
 
+.btn__opcoes_todo {
+  margin: 0.5rem;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0 6px;
+  opacity: 0.6;
+  transition: opacity 0.2s;
+}
+
+.btn__opcoes_todo:hover {
+  opacity: 1;
+}
+
+.menu__opcoes_todo {
+  position: absolute;
+  right: 12px;
+  background-color: #2a1a2e;
+  border: 1px solid #ffffff20;
+  border-radius: 8px;
+  overflow: hidden;
+  z-index: 10;
+  min-width: 160px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+
+.menu__opcao {
+  display: block;
+  width: 100%;
+  padding: 10px 16px;
+  background: none;
+  border: none;
+  color: #fff;
+  text-align: left;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: background 0.2s;
+}
+
+.menu__opcao:hover {
+  background-color: #ffffff15;
+}
+
 /* Overlay para o modal (controla display: none/block com JS) */
 
 .new-list-modal.hidden {
@@ -619,7 +664,7 @@ footer:hover {
 }
 
 .to__do_lixeira {
-  margin-right: 1.5rem;
+  margin-right: 1rem;
 }
 
 .marcador__prioridade {

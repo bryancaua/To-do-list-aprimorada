@@ -31,6 +31,10 @@ function mostrarMensagemVaziaListas() {
     mensagemVaziaListas.classList.toggle('hidden', ativas.length > 0);
 }
 
+function mostrarMensagemVazia(elemento, array) {
+    elemento.classList.toggle('hidden', array.length > 0);
+}
+
 function criarLista(lista) {
     const liListas = document.createElement('li');
     liListas.classList.add('lista__item');
@@ -233,6 +237,36 @@ function criarToDo(todo) {
         paragrafoToDo.style.textDecoration = 'line-through';
     }
 
+    // botão de 3 pontos
+    const btnOpcoes = document.createElement('button');
+    btnOpcoes.classList.add('btn__opcoes_todo');
+    btnOpcoes.textContent = '⋮';
+
+    // dropdown com as opções
+    const menuOpcoes = document.createElement('div');
+    menuOpcoes.classList.add('menu__opcoes_todo', 'hidden');
+
+    const btnAlterarPrioridade = document.createElement('button');
+    btnAlterarPrioridade.classList.add('menu__opcao');
+    btnAlterarPrioridade.textContent = 'Alterar prioridade';
+
+    const btnSubTodo = document.createElement('button');
+    btnSubTodo.classList.add('menu__opcao');
+    btnSubTodo.textContent = 'Criar sub to-do';
+
+    menuOpcoes.append(btnAlterarPrioridade, btnSubTodo);
+
+    // abre/fecha o menu
+    btnOpcoes.addEventListener('click', (e) => {
+        e.stopPropagation(); // evita que o clique propague e feche imediatamente
+        menuOpcoes.classList.toggle('hidden');
+    });
+
+    // fecha o menu ao clicar fora
+    document.addEventListener('click', () => {
+        menuOpcoes.classList.add('hidden');
+    });
+
     const imgLixeiraToDo = document.createElement('img');
     imgLixeiraToDo.classList.add('to__do_lixeira');
     imgLixeiraToDo.setAttribute('src',  './assets/Trash.svg');
@@ -243,11 +277,13 @@ function criarToDo(todo) {
         liToDo.remove();
     })
     
-        divLiToDo.appendChild(checkboxToDo);
-        divLiToDo.appendChild(paragrafoToDo);
-        botaoToDo.appendChild(divLiToDo);
-        botaoToDo.appendChild(imgLixeiraToDo);
-        liToDo.appendChild(botaoToDo);
+    divLiToDo.appendChild(checkboxToDo);
+    divLiToDo.appendChild(paragrafoToDo);
+    botaoToDo.appendChild(divLiToDo);
+    botaoToDo.appendChild(imgLixeiraToDo);
+    botaoToDo.appendChild(btnOpcoes);
+    liToDo.appendChild(botaoToDo);
+    liToDo.appendChild(menuOpcoes);
 
         return liToDo;
 }
