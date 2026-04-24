@@ -109,6 +109,7 @@ botaoMostrarFormLista.addEventListener('click', () => {
 
 publicarLista.addEventListener('submit', (event) => {
     event.preventDefault();
+    divForm.classList.add('hidden');
 
     const lista = {
         id: Date.now(),
@@ -331,6 +332,7 @@ function renderizarToDo(todo) {
 
 publicarToDo.addEventListener('submit', (event) => {
     event.preventDefault();
+    divFormTodo.classList.add('hidden');
 
     const todo = {
         id: Date.now(),
