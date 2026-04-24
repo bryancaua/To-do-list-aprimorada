@@ -246,13 +246,48 @@ function criarToDo(todo) {
     const menuOpcoes = document.createElement('div');
     menuOpcoes.classList.add('menu__opcoes_todo', 'hidden');
 
+    // botão altera prioridade
     const btnAlterarPrioridade = document.createElement('button');
     btnAlterarPrioridade.classList.add('menu__opcao');
     btnAlterarPrioridade.textContent = 'Alterar prioridade';
+    const editIcon = document.createElement('img');
+    editIcon.setAttribute('src', './assets/edit.svg');
+    editIcon.classList.add('edit__icon');
+    btnAlterarPrioridade.append(editIcon);
+    // sub menu de prioridade
+    const menuPrioridade = document.createElement('div');
+    menuPrioridade.classList.add('menu__prioridade_todo', 'hidden');
 
+    const prioridades = ['alta', 'normal', 'baixa'];
+
+    prioridades.forEach(p => {
+        const btnAlterarPrioridade = document.createElement('button');
+        btnAlterarPrioridade.classList.add('menu__opcao', `opcao--${p}`);
+        btnAlterarPrioridade.textContent = p.charAt(0).toUpperCase() + p.slice(1);
+
+        btnAlterarPrioridade.addEventListener('click', () => {
+            todo.prioridade = p;
+            atualizarLista();
+            menuPrioridade.classList.add('hidden');
+            menuOpcoes.classList.add('hidden');
+            renderizarToDoOrdenado();
+        });
+
+        menuPrioridade.appendChild(btnAlterarPrioridade);
+    });
+
+    btnAlterarPrioridade.addEventListener('click', () => {
+        menuPrioridade.classList.toggle('hidden');
+    });
+
+    // botão cria sub to-do
     const btnSubTodo = document.createElement('button');
     btnSubTodo.classList.add('menu__opcao');
     btnSubTodo.textContent = 'Criar sub to-do';
+    const plusIcon = document.createElement('img');
+    plusIcon.setAttribute('src', './assets/plus-circle.svg');
+    plusIcon.classList.add('plus-circle__icon');
+    btnSubTodo.append(plusIcon);
 
     menuOpcoes.append(btnAlterarPrioridade, btnSubTodo);
 
@@ -284,6 +319,7 @@ function criarToDo(todo) {
     botaoToDo.appendChild(btnOpcoes);
     liToDo.appendChild(botaoToDo);
     liToDo.appendChild(menuOpcoes);
+    liToDo.appendChild(menuPrioridade);
 
         return liToDo;
 }
