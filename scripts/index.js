@@ -1,4 +1,3 @@
-const divForm = document.querySelector('.new-list-modal');
 const botaoMostrarFormLista = document.querySelector('.botao__criar_lista');
 const publicarLista = document.querySelector('.new__list_form');
 const nomeLista = document.getElementById('list__name');
@@ -202,21 +201,47 @@ const nomeToDo = document.getElementById('todo__name');
 const ulToDo = document.querySelector('.ul__to_do');
 const prioridadeToDo = document.getElementById('todo__prioridade');
 const footer = document.querySelector('.footer');
+const formSubTodo = document.getElementById('modal__sub_to_do');
+const inputSubToDo = document.getElementById('sub__to_do_name');
 
-
+let todoAtivo = null;
 let todos = JSON.parse (localStorage.getItem('to-do')) || [];
 
 function criarToDo(todo) {
+
+    if (!todo.subTodos) todo.subTodos = todo.subToDo || [];
+    if (typeof todo.subTodosVisiveis !== 'boolean') todo.subTodosVisiveis = false;
     
     const liToDo = document.createElement('li');
-    liToDo.classList.add('li__to_do');
-    liToDo.classList.add(`todo--${todo.prioridade}`);
+    liToDo.classList.add('li__to_do', `todo--${todo.prioridade}`);
 
     const botaoToDo = document.createElement('button');
     botaoToDo.classList.add('botao__to_do');
 
     const divLiToDo = document.createElement('div');
     divLiToDo.classList.add('div__li_to_do');
+
+    const ulSubToDos = document.createElement('ul');
+    ulSubToDos.classList.add('ul__sub_to_dos', 'hidden');
+
+    const arrowVerSubToDos = document.createElement('img');
+    arrowVerSubToDos.classList.add('arrow__ver_sub_to_dos', 'hidden');
+    arrowVerSubToDos.setAttribute('src', './assets/chevron-right.svg');
+
+    const atualizarUIExpansao = () => {
+        const temSubToDo = todo.subTodos.length > 0;
+        arrowVerSubToDos.classList.toggle('hidden', !temSubToDo);
+        ulSubToDos.classList.toggle('hidden', !(temSubToDo && todo.subTodosVisiveis));
+        arrowVerSubToDos.classList.toggle('expandido', temSubToDo && todo.subTodosVisiveis);
+    }
+
+    arrowVerSubToDos.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (todo.subTodos.length === 0) return;
+        todo.subTodosVisiveis = !todo.subTodosVisiveis;
+        atualizarUIExpansao();
+        atualizarLista();
+    });
 
     const checkboxToDo = document.createElement('input');
     checkboxToDo.classList.add('checkbox__to_do');
@@ -281,14 +306,24 @@ function criarToDo(todo) {
         menuPrioridade.classList.toggle('hidden');
     });
 
-    // botão cria sub to-do
+    // sub menu de criar sub to-do
     const btnSubTodo = document.createElement('button');
-    btnSubTodo.classList.add('menu__opcao');
+    btnSubTodo.classList.add('menu__opcao'); 
     btnSubTodo.textContent = 'Criar sub to-do';
     const plusIcon = document.createElement('img');
     plusIcon.setAttribute('src', './assets/plus-circle.svg');
     plusIcon.classList.add('plus-circle__icon');
     btnSubTodo.append(plusIcon);
+
+    //form cria sub To-do
+    btnSubTodo.addEventListener('click', (e) => {
+        todoAtivo = todo;
+        liToDo.insertAdjacentElement('afterend', formSubTodo);
+        formSubTodo.classList.remove('hidden');
+        e.stopPropagation();
+        menuOpcoes.classList.add('hidden');
+    });
+
 
     menuOpcoes.append(btnAlterarPrioridade, btnSubTodo);
 
@@ -296,11 +331,6 @@ function criarToDo(todo) {
     btnOpcoes.addEventListener('click', (e) => {
         e.stopPropagation(); // evita que o clique propague e feche imediatamente
         menuOpcoes.classList.toggle('hidden');
-    });
-
-    // fecha o menu ao clicar fora
-    document.addEventListener('click', () => {
-        menuOpcoes.classList.add('hidden');
     });
 
     const imgLixeiraToDo = document.createElement('img');
@@ -313,6 +343,7 @@ function criarToDo(todo) {
         liToDo.remove();
     })
     
+    divLiToDo.appendChild(arrowVerSubToDos);
     divLiToDo.appendChild(checkboxToDo);
     divLiToDo.appendChild(paragrafoToDo);
     botaoToDo.appendChild(divLiToDo);
@@ -321,8 +352,96 @@ function criarToDo(todo) {
     liToDo.appendChild(botaoToDo);
     liToDo.appendChild(menuOpcoes);
     liToDo.appendChild(menuPrioridade);
+    liToDo.appendChild(ulSubToDos);
 
-        return liToDo;
+    todo.subTodos.forEach(subTodo => criarSubToDo(subTodo, ulSubToDos, todo));
+    atualizarUIExpansao();
+
+    return liToDo;
+}
+
+document.addEventListener('click', (e) => {
+  // fecha formulário de sub todo
+  if (!formSubTodo.contains(e.target)) {
+    formSubTodo.classList.add('hidden');
+  }
+
+  // fecha menus de opção abertos
+  document.querySelectorAll('.menu__opcoes_todo').forEach(menu => {
+    menu.classList.add('hidden');
+  });
+});
+
+formSubTodo.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (!todoAtivo) return;
+
+    const descricao = inputSubToDo.value.trim();
+    if (!descricao) return;
+
+    const subTodo = {
+        id: Date.now(),
+        concluido: false,
+        descricao: inputSubToDo.value
+    };
+
+    if (!todoAtivo.subTodos) todoAtivo.subTodos = [];
+    todoAtivo.subTodos.push(subTodo);
+
+    // opcional: já abre ao criar
+    todoAtivo.subTodosVisiveis = true;
+
+    atualizarLista();
+    renderizarToDoOrdenado();
+
+    inputSubToDo.value = '';
+    formSubTodo.classList.add('hidden');
+    todoAtivo = null;
+});
+
+function criarSubToDo(subTodo, ulSubToDos, todoPai) {
+
+    const subLiToDo = document.createElement('li');
+    subLiToDo.classList.add('li__sub_to_do');
+
+    const botaoSubToDo = document.createElement('button');
+    botaoSubToDo.classList.add('botao__to_do');
+
+    const divLiSubToDo = document.createElement('div');
+    divLiSubToDo.classList.add('div__li_to_do');
+
+    const checkboxSubToDo = document.createElement('input');
+    checkboxSubToDo.classList.add('checkbox__to_do');
+    checkboxSubToDo.type = 'checkbox';
+    checkboxSubToDo.checked = subTodo.concluido;
+    checkboxSubToDo.addEventListener('change', () => {
+        subTodo.concluido = checkboxSubToDo.checked;
+        paragrafoSubToDo.style.textDecoration = checkboxSubToDo.checked ? 'line-through' : 'none';
+        SomRiscando.play();
+        atualizarLista();
+    });
+
+    const paragrafoSubToDo = document.createElement('p');
+    paragrafoSubToDo.classList.add('p__li_to_do');
+    paragrafoSubToDo.textContent = subTodo.descricao;
+    if (subTodo.concluido) {
+        paragrafoSubToDo.style.textDecoration = 'line-through';
+    }
+
+    const imgLixeira = document.createElement('img');
+    imgLixeira.classList.add('to__do_lixeira');
+    imgLixeira.setAttribute('src', './assets/Trash.svg');
+    imgLixeira.addEventListener('click', () => {
+        todoPai.subTodos = todoPai.subTodos.filter(s => s.id !== subTodo.id);
+        if (todoPai.subTodos.length === 0) todoPai.subTodosVisiveis = false;
+        atualizarLista();
+        renderizarToDoOrdenado();
+    });
+
+    divLiSubToDo.append(checkboxSubToDo, paragrafoSubToDo);
+    botaoSubToDo.append(divLiSubToDo, imgLixeira);
+    subLiToDo.append(botaoSubToDo);
+    ulSubToDos.append(subLiToDo);
 }
 
 function renderizarToDo(todo) {
@@ -336,10 +455,12 @@ publicarToDo.addEventListener('submit', (event) => {
 
     const todo = {
         id: Date.now(),
-        descricao: nomeToDo.value,
+        descricao: nomeToDo.value.trim(),
         concluido: false,
         prioridade: prioridadeToDo.value,
-        ordem: listaAtiva.todos.length
+        ordem: listaAtiva.todos.length,
+        subTodos: [],              // <-- padronizado
+        subTodosVisiveis: false    // <-- estado visual persistido
     }
 
     if(todo.descricao == "") {
@@ -389,7 +510,7 @@ function trocarTelaToDo(lista) {
 }
 
 Sortable.create(ulToDo, {
-    Animation: 150,
+    animation: 150,
     onEnd: (evento) => {
         const { oldIndex, newIndex} = evento;
 
@@ -409,13 +530,3 @@ Sortable.create(ulToDo, {
         renderizarToDoOrdenado();
     }
 });
-
-
-
-
-
-
-
-
-
-
