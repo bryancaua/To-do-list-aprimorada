@@ -8,6 +8,7 @@ const mensagemVaziaTodos = document.querySelector('.tela__to_dos .mensagem__vazi
 const telaListas = document.querySelector('.tela__listas');
 const telaToDos = document.querySelector('.tela__to_dos');
 const tituloToDo = document.querySelector('.titulo__lista_todos');
+const divForm = document.querySelector('.new-list-modal');
 const divFormTodo = document.querySelector('.new-todo-modal');
 const botaoMostrarFormToDo = document.querySelector('.botao__criar_to_do');
 const controleConcluidas = document.getElementById('footer__listas');
